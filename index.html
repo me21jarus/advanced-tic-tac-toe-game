@@ -12,373 +12,284 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-        }
-
-        .background-animation {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
-        }
-
-        .floating-shapes {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: float 8s infinite ease-in-out;
-        }
-
-        .floating-shapes:nth-child(1) { left: 10%; animation-delay: 0s; }
-        .floating-shapes:nth-child(2) { left: 20%; animation-delay: 2s; }
-        .floating-shapes:nth-child(3) { left: 80%; animation-delay: 4s; }
-        .floating-shapes:nth-child(4) { left: 70%; animation-delay: 6s; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
         }
 
         .game-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            border-radius: 25px;
-            padding: 40px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            text-align: center;
-            animation: slideIn 0.8s ease-out;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
         }
 
-        @keyframes slideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        .screen {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+            padding: 20px;
         }
 
-        h1 {
-            color: white;
-            font-size: 3rem;
-            margin-bottom: 30px;
-            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        .screen.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: #fff;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: glow 2s ease-in-out infinite alternate;
+            text-align: center;
+            animation: fadeInDown 1s ease-out;
         }
 
-        @keyframes glow {
-            from { text-shadow: 0 0 20px rgba(255, 107, 107, 0.5); }
-            to { text-shadow: 0 0 30px rgba(78, 205, 196, 0.5); }
-        }
-
-        .game-info {
-            display: flex;
-            justify-content: space-between;
+        .subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            color: #f0f0f0;
             margin-bottom: 30px;
-            color: white;
+            text-align: center;
+            opacity: 0.9;
         }
 
-        .player-info {
+        .choice-container {
             display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .choice-btn {
+            padding: 15px 30px;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            min-width: 140px;
+        }
+
+        .choice-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .choice-btn.secondary {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+        }
+
+        .choice-btn.easy {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+        }
+
+        .choice-btn.medium {
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+        }
+
+        .choice-btn.hard {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+        }
+
+        .game-screen {
+            display: grid;
+            grid-template-areas: 
+                "header header header"
+                "player1 board player2"
+                "controls controls controls";
+            grid-template-columns: 1fr 2fr 1fr;
+            grid-template-rows: auto 1fr auto;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+            height: 90vh;
+            padding: 20px;
+        }
+
+        .game-header {
+            grid-area: header;
+            text-align: center;
+        }
+
+        .game-title {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: #fff;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .game-mode-info {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            color: #f0f0f0;
+            opacity: 0.9;
+        }
+
+        .player-section {
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 10px;
-            padding: 10px 20px;
+            justify-content: center;
+            padding: 20px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+            border-radius: 20px;
             backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .player-section.active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .player1-section {
+            grid-area: player1;
+        }
+
+        .player2-section {
+            grid-area: player2;
+        }
+
+        .player-name {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 10px;
+            text-align: center;
         }
 
         .player-symbol {
-            font-size: 1.5rem;
+            font-size: clamp(2rem, 5vw, 3rem);
             font-weight: bold;
+            margin-bottom: 10px;
         }
 
-        .active-player {
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            animation: pulse 1s infinite;
+        .player-symbol.x {
+            color: #ff6b6b;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .player-symbol.o {
+            color: #4ecdc4;
+        }
+
+        .score {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            color: #f0f0f0;
+            text-align: center;
+        }
+
+        .board-section {
+            grid-area: board;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .game-board {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
+            grid-template-rows: repeat(3, 1fr);
+            gap: 8px;
+            width: min(60vmin, 300px);
+            height: min(60vmin, 300px);
             padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         .cell {
-            width: 100px;
-            height: 100px;
+            background: linear-gradient(145deg, #ffffff, #e0e0e0);
             border: none;
             border-radius: 15px;
-            font-size: 2.5rem;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            background: linear-gradient(145deg, #ffffff, #e6e6e6);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .cell::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .cell:hover::before {
-            left: 100%;
-        }
-
-        .cell:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+        .cell:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(145deg, #f0f0f0, #d0d0d0);
         }
 
         .cell.x {
             color: #ff6b6b;
-            background: linear-gradient(145deg, #ffe6e6, #ffcccc);
             animation: popIn 0.5s ease-out;
         }
 
         .cell.o {
             color: #4ecdc4;
-            background: linear-gradient(145deg, #e6fffe, #ccfffc);
             animation: popIn 0.5s ease-out;
         }
 
-        @keyframes popIn {
-            0% { transform: scale(0) rotate(180deg); }
-            80% { transform: scale(1.1) rotate(360deg); }
-            100% { transform: scale(1) rotate(360deg); }
+        .cell.winning {
+            animation: winningCell 1s ease-in-out infinite;
         }
 
-        .winning-cell {
-            animation: winPulse 0.8s ease-in-out infinite;
+        .cell.computer-thinking {
+            animation: pulse 1s ease-in-out infinite;
         }
 
-        @keyframes winPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); box-shadow: 0 0 30px rgba(255, 215, 0, 0.8); }
-        }
-
-        .controls {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-
-        .btn {
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .reset-btn {
-            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
-            color: white;
-            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
-        }
-
-        .new-game-btn {
-            background: linear-gradient(45deg, #4ecdc4, #44a08d);
-            color: white;
-            box-shadow: 0 8px 20px rgba(78, 205, 196, 0.3);
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+        .controls-section {
+            grid-area: controls;
             display: flex;
             justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .modal.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            background: linear-gradient(145deg, #667eea, #764ba2);
-            border-radius: 25px;
-            padding: 50px;
-            text-align: center;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transform: scale(0.8);
-            transition: transform 0.3s ease;
-        }
-
-        .modal.show .modal-content {
-            transform: scale(1);
-        }
-
-        .modal h2 {
-            color: white;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .modal p {
-            color: white;
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
-        .mode-selection {
-            text-align: center;
-            animation: slideIn 0.8s ease-out;
-        }
-
-        .mode-selection h2 {
-            color: white;
-            font-size: 2.5rem;
-            margin-bottom: 40px;
-            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .mode-buttons {
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .mode-btn {
-            display: flex;
-            flex-direction: column;
             align-items: center;
             gap: 15px;
-            padding: 30px 40px;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: white;
-            font-size: 1.2rem;
-            font-weight: bold;
-            min-width: 180px;
-        }
-
-        .mode-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-
-        .mode-icon {
-            font-size: 3rem;
-        }
-
-        .mode-change-btn {
-            background: linear-gradient(45deg, #9b59b6, #8e44ad);
-            color: white;
-            box-shadow: 0 8px 20px rgba(155, 89, 182, 0.3);
-        }
-
-        .game-content {
-            animation: slideIn 0.8s ease-out;
-        }
-
-        .difficulty-selection {
-            margin-bottom: 20px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-        }
-
-        .difficulty-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
             flex-wrap: wrap;
         }
 
-        .difficulty-btn {
+        .control-btn {
             padding: 10px 20px;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
             border: none;
-            border-radius: 15px;
+            border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
+            background: linear-gradient(45deg, #a8edea, #fed6e3);
+            color: #333;
             font-weight: bold;
-            opacity: 0.7;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            min-width: 120px;
         }
 
-        .difficulty-btn.active {
-            opacity: 1;
-            transform: scale(1.05);
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .difficulty-btn.easy {
-            background: linear-gradient(45deg, #2ecc71, #27ae60);
-            color: white;
-        }
-
-        .difficulty-btn.medium {
-            background: linear-gradient(45deg, #f39c12, #e67e22);
-            color: white;
-        }
-
-        .difficulty-btn.hard {
-            background: linear-gradient(45deg, #e74c3c, #c0392b);
+        .control-btn.back {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
             color: white;
         }
 
@@ -387,528 +298,612 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            font-size: 1.2rem;
+            color: #fff;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 30px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
+            z-index: 100;
         }
 
         .thinking-indicator.show {
             opacity: 1;
             visibility: visible;
+            animation: pulse 1s ease-in-out infinite;
         }
 
-        .thinking-dots {
-            display: inline-block;
-            margin-left: 10px;
-        }
-
-        .thinking-dots span {
-            display: inline-block;
-            animation: thinking 1.4s infinite;
-        }
-
-        .thinking-dots span:nth-child(1) { animation-delay: 0s; }
-        .thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
-        .thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes thinking {
-            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
-            40% { transform: scale(1.2); opacity: 1; }
-        }
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: #ff6b6b;
-            animation: confetti 3s linear infinite;
-        }
-
-        @keyframes confetti {
-            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-        }
-
-        .score-board {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-        }
-
-        .score-item {
-            text-align: center;
+        .message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+            max-width: 90vw;
         }
 
-        .score-number {
-            font-size: 2rem;
+        .message.show {
+            opacity: 1;
+            visibility: visible;
+            animation: bounceIn 0.6s ease-out;
+        }
+
+        .message h2 {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 15px;
+        }
+
+        .message p {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            margin-bottom: 20px;
+        }
+
+        .message button {
+            padding: 12px 24px;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
             font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
+            transition: all 0.3s ease;
         }
 
-        @media (max-width: 600px) {
-            .game-container {
-                padding: 20px;
-                margin: 20px;
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
             }
-            
-            h1 {
-                font-size: 2rem;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
-            
-            .cell {
-                width: 80px;
-                height: 80px;
-                font-size: 2rem;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
             }
-            
-            .game-board {
-                gap: 10px;
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: translate(-50%, -50%) scale(0.3);
+                opacity: 0;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.05);
+            }
+            70% {
+                transform: translate(-50%, -50%) scale(0.9);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes winningCell {
+            0%, 100% {
+                background: linear-gradient(145deg, #ffffff, #e0e0e0);
+            }
+            50% {
+                background: linear-gradient(145deg, #ffd700, #ffed4e);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .game-screen {
+                grid-template-areas: 
+                    "header header"
+                    "player1 player2"
+                    "board board"
+                    "controls controls";
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto auto 1fr auto;
+                gap: 15px;
+                padding: 10px;
+            }
+
+            .player-section {
                 padding: 15px;
+            }
+
+            .game-board {
+                width: min(80vmin, 280px);
+                height: min(80vmin, 280px);
+                padding: 15px;
+            }
+
+            .choice-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .choice-btn {
+                width: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-board {
+                width: min(90vmin, 250px);
+                height: min(90vmin, 250px);
+                padding: 10px;
+            }
+
+            .controls-section {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .control-btn {
+                width: 150px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="background-animation">
-        <div class="floating-shapes"></div>
-        <div class="floating-shapes"></div>
-        <div class="floating-shapes"></div>
-        <div class="floating-shapes"></div>
-    </div>
-
     <div class="game-container">
-        <h1>🎮 Tic-Tac-Toe 🎮</h1>
-        
-        <div class="score-board">
-            <div class="score-item">
-                <span class="score-number" id="scoreX">0</span>
-                <span>Player X</span>
-            </div>
-            <div class="score-item">
-                <span class="score-number" id="scoreDraw">0</span>
-                <span>Draws</span>
-            </div>
-            <div class="score-item">
-                <span class="score-number" id="scoreO">0</span>
-                <span>Player O</span>
+        <!-- Welcome Screen -->
+        <div class="screen active" id="welcomeScreen">
+            <h1 class="title">Advanced Tic-Tac-Toe</h1>
+            <p class="subtitle">Choose your game mode to start playing!</p>
+            <div class="choice-container">
+                <button class="choice-btn" onclick="selectGameMode('computer')">🤖 vs Computer</button>
+                <button class="choice-btn secondary" onclick="selectGameMode('human')">👥 2 Players</button>
             </div>
         </div>
 
-        <div class="mode-selection" id="modeSelection">
-            <h2>Choose Game Mode</h2>
-            <div class="mode-buttons">
-                <button class="mode-btn" id="vsComputerBtn">
-                    <span class="mode-icon">🤖</span>
-                    <span>VS Computer</span>
-                </button>
-                <button class="mode-btn" id="vsPlayerBtn">
-                    <span class="mode-icon">👥</span>
-                    <span>2 Players</span>
-                </button>
+        <!-- Difficulty Selection Screen -->
+        <div class="screen" id="difficultyScreen">
+            <button class="back-btn" onclick="showScreen('welcomeScreen')">← Back</button>
+            <h1 class="title">Choose Difficulty</h1>
+            <p class="subtitle">Select the AI difficulty level</p>
+            <div class="choice-container">
+                <button class="choice-btn easy" onclick="selectDifficulty('easy')">😊 Easy</button>
+                <button class="choice-btn medium" onclick="selectDifficulty('medium')">🧠 Medium</button>
+                <button class="choice-btn hard" onclick="selectDifficulty('hard')">🔥 Hard</button>
             </div>
         </div>
 
-        <div class="game-content" id="gameContent" style="display: none;">
-            <div class="game-info">
-                <div class="player-info active-player" id="playerX">
-                    <span class="player-symbol">❌</span>
-                    <span id="playerXLabel">Player X</span>
+        <!-- Game Screen -->
+        <div class="screen" id="gameScreen">
+            <div class="game-screen">
+                <div class="game-header">
+                    <h2 class="game-title">Tic-Tac-Toe</h2>
+                    <p class="game-mode-info" id="gameModeInfo">vs Computer - Easy</p>
                 </div>
-                <div class="player-info" id="playerO">
-                    <span class="player-symbol">⭕</span>
-                    <span id="playerOLabel">Player O</span>
+
+                <div class="player-section player1-section active" id="player1Info">
+                    <div class="player-name">Player 1</div>
+                    <div class="player-symbol x">X</div>
+                    <div class="score">Score: <span id="player1Score">0</span></div>
+                </div>
+
+                <div class="board-section">
+                    <div class="game-board" id="gameBoard">
+                        <button class="cell" data-index="0"></button>
+                        <button class="cell" data-index="1"></button>
+                        <button class="cell" data-index="2"></button>
+                        <button class="cell" data-index="3"></button>
+                        <button class="cell" data-index="4"></button>
+                        <button class="cell" data-index="5"></button>
+                        <button class="cell" data-index="6"></button>
+                        <button class="cell" data-index="7"></button>
+                        <button class="cell" data-index="8"></button>
+                    </div>
+                </div>
+
+                <div class="player-section player2-section" id="player2Info">
+                    <div class="player-name">Computer</div>
+                    <div class="player-symbol o">O</div>
+                    <div class="score">Score: <span id="player2Score">0</span></div>
+                </div>
+
+                <div class="controls-section">
+                    <button class="control-btn" onclick="resetGame()">🔄 Reset</button>
+                    <button class="control-btn" onclick="newGame()">🆕 New Game</button>
+                    <button class="control-btn back" onclick="backToMenu()">🏠 Menu</button>
                 </div>
             </div>
-
-        <div class="game-board" id="gameBoard">
-            <button class="cell" data-index="0"></button>
-            <button class="cell" data-index="1"></button>
-            <button class="cell" data-index="2"></button>
-            <button class="cell" data-index="3"></button>
-            <button class="cell" data-index="4"></button>
-            <button class="cell" data-index="5"></button>
-            <button class="cell" data-index="6"></button>
-            <button class="cell" data-index="7"></button>
-            <button class="cell" data-index="8"></button>
         </div>
 
-            <div class="controls">
-                <button class="btn reset-btn" id="resetBtn">🔄 Reset Game</button>
-                <button class="btn new-game-btn" id="newGameBtn">🎯 New Game</button>
-                <button class="btn mode-change-btn" id="modeChangeBtn">🎮 Change Mode</button>
-            </div>
+        <!-- Thinking Indicator -->
+        <div class="thinking-indicator" id="thinkingIndicator">
+            🤔 Computer is thinking...
         </div>
-    </div>
 
-    <div class="thinking-indicator" id="thinkingIndicator">
-        🤖 Computer is thinking
-        <div class="thinking-dots">
-            <span>.</span><span>.</span><span>.</span>
-        </div>
-    </div>
-
-    <div class="modal" id="gameModal">
-        <div class="modal-content">
-            <h2 id="modalTitle">Game Over!</h2>
-            <p id="modalMessage">Winner is X!</p>
-            <button class="btn new-game-btn" id="modalNewGameBtn">🎮 Play Again</button>
+        <!-- Game Over Message -->
+        <div class="message" id="gameMessage">
+            <h2 id="messageTitle">Game Over!</h2>
+            <p id="messageText">Result message</p>
+            <button id="messageBtn" onclick="hideMessage()">Play Again</button>
         </div>
     </div>
 
     <script>
         class TicTacToe {
             constructor() {
-                this.board = ['', '', '', '', '', '', '', '', ''];
+                this.board = Array(9).fill('');
                 this.currentPlayer = 'X';
+                this.gameMode = 'computer';
+                this.difficulty = 'medium';
                 this.gameActive = true;
-                this.gameMode = null; // 'computer' or 'player'
-                this.difficulty = 'medium'; // 'easy', 'medium', 'hard'
-                this.isComputerTurn = false;
-                this.scores = { X: 0, O: 0, draw: 0 };
-                this.winningCombinations = [
+                this.scores = { player1: 0, player2: 0 };
+                this.winPatterns = [
                     [0, 1, 2], [3, 4, 5], [6, 7, 8],
                     [0, 3, 6], [1, 4, 7], [2, 5, 8],
                     [0, 4, 8], [2, 4, 6]
                 ];
-                
                 this.initializeGame();
             }
 
             initializeGame() {
-                this.cells = document.querySelectorAll('.cell');
-                this.resetBtn = document.getElementById('resetBtn');
-                this.newGameBtn = document.getElementById('newGameBtn');
-                this.modeChangeBtn = document.getElementById('modeChangeBtn');
-                this.modal = document.getElementById('gameModal');
-                this.modalTitle = document.getElementById('modalTitle');
-                this.modalMessage = document.getElementById('modalMessage');
-                this.modalNewGameBtn = document.getElementById('modalNewGameBtn');
-                this.playerXInfo = document.getElementById('playerX');
-                this.playerOInfo = document.getElementById('playerO');
-                this.playerXLabel = document.getElementById('playerXLabel');
-                this.playerOLabel = document.getElementById('playerOLabel');
-                this.scoreX = document.getElementById('scoreX');
-                this.scoreO = document.getElementById('scoreO');
-                this.scoreDraw = document.getElementById('scoreDraw');
-                this.modeSelection = document.getElementById('modeSelection');
-                this.gameContent = document.getElementById('gameContent');
-                this.vsComputerBtn = document.getElementById('vsComputerBtn');
-                this.vsPlayerBtn = document.getElementById('vsPlayerBtn');
-                this.thinkingIndicator = document.getElementById('thinkingIndicator');
-
-                this.attachEventListeners();
-                this.updateScoreBoard();
+                this.bindEvents();
+                this.updateDisplay();
             }
 
-            attachEventListeners() {
-                this.cells.forEach(cell => {
-                    cell.addEventListener('click', this.handleCellClick.bind(this));
-                });
-
-                this.resetBtn.addEventListener('click', this.resetGame.bind(this));
-                this.newGameBtn.addEventListener('click', this.newGame.bind(this));
-                this.modeChangeBtn.addEventListener('click', this.showModeSelection.bind(this));
-                this.modalNewGameBtn.addEventListener('click', this.newGame.bind(this));
-                this.vsComputerBtn.addEventListener('click', () => this.selectMode('computer'));
-                this.vsPlayerBtn.addEventListener('click', () => this.selectMode('player'));
-            }
-
-            selectMode(mode) {
-                this.gameMode = mode;
-                this.modeSelection.style.display = 'none';
-                this.gameContent.style.display = 'block';
-                
-                if (mode === 'computer') {
-                    this.playerXLabel.textContent = 'You';
-                    this.playerOLabel.textContent = 'Computer';
-                    this.addDifficultySelection();
-                } else {
-                    this.playerXLabel.textContent = 'Player 1';
-                    this.playerOLabel.textContent = 'Player 2';
-                    this.removeDifficultySelection();
-                }
-                
-                this.resetGame();
-            }
-
-            addDifficultySelection() {
-                const existingDifficulty = document.querySelector('.difficulty-selection');
-                if (existingDifficulty) return;
-
-                const difficultyDiv = document.createElement('div');
-                difficultyDiv.className = 'difficulty-selection';
-                difficultyDiv.innerHTML = `
-                    <h3 style="color: white; margin-bottom: 15px;">Select Difficulty</h3>
-                    <div class="difficulty-buttons">
-                        <button class="difficulty-btn easy" data-difficulty="easy">Easy</button>
-                        <button class="difficulty-btn medium active" data-difficulty="medium">Medium</button>
-                        <button class="difficulty-btn hard" data-difficulty="hard">Hard</button>
-                    </div>
-                `;
-                
-                this.gameContent.insertBefore(difficultyDiv, this.gameContent.firstChild);
-                
-                const difficultyButtons = difficultyDiv.querySelectorAll('.difficulty-btn');
-                difficultyButtons.forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        difficultyButtons.forEach(b => b.classList.remove('active'));
-                        e.target.classList.add('active');
-                        this.difficulty = e.target.dataset.difficulty;
-                        this.resetGame();
+            bindEvents() {
+                document.querySelectorAll('.cell').forEach(cell => {
+                    cell.addEventListener('click', (e) => {
+                        const index = parseInt(e.target.dataset.index);
+                        this.makeMove(index);
                     });
                 });
             }
 
-            removeDifficultySelection() {
-                const difficultyDiv = document.querySelector('.difficulty-selection');
-                if (difficultyDiv) {
-                    difficultyDiv.remove();
-                }
-            }
+            makeMove(index) {
+                if (!this.gameActive || this.board[index] !== '') return;
 
-            showModeSelection() {
-                this.modeSelection.style.display = 'block';
-                this.gameContent.style.display = 'none';
-                this.hideModal();
-            }
+                this.board[index] = this.currentPlayer;
+                this.updateCell(index, this.currentPlayer);
 
-            handleCellClick(e) {
-                const cell = e.target;
-                const index = parseInt(cell.dataset.index);
-
-                if (this.board[index] !== '' || !this.gameActive || this.isComputerTurn) {
+                if (this.checkWinner()) {
+                    this.endGame(this.currentPlayer);
                     return;
                 }
 
-                this.makeMove(index, cell);
-            }
+                if (this.checkDraw()) {
+                    this.endGame('draw');
+                    return;
+                }
 
-            makeMove(index, cell) {
-                this.board[index] = this.currentPlayer;
-                cell.textContent = this.currentPlayer === 'X' ? '❌' : '⭕';
-                cell.classList.add(this.currentPlayer.toLowerCase());
-                cell.disabled = true;
+                this.switchPlayer();
 
-                if (this.checkWin()) {
-                    this.endGame(this.getWinMessage());
-                    this.scores[this.currentPlayer]++;
-                    this.highlightWinningCells();
-                    this.createConfetti();
-                } else if (this.checkDraw()) {
-                    this.endGame("It's a Draw! 🤝");
-                    this.scores.draw++;
-                } else {
-                    this.switchPlayer();
-                    
-                    // If it's computer mode and now it's O's turn (computer)
-                    if (this.gameMode === 'computer' && this.currentPlayer === 'O' && this.gameActive) {
+                if (this.gameMode === 'computer' && this.currentPlayer === 'O') {
+                    this.showThinking();
+                    setTimeout(() => {
                         this.makeComputerMove();
+                        this.hideThinking();
+                    }, 1000);
+                }
+            }
+
+            makeComputerMove() {
+                if (!this.gameActive) return;
+
+                let move;
+                switch (this.difficulty) {
+                    case 'easy':
+                        move = this.getRandomMove();
+                        break;
+                    case 'medium':
+                        move = this.getMediumMove();
+                        break;
+                    case 'hard':
+                        move = this.getBestMove();
+                        break;
+                }
+
+                if (move !== -1) {
+                    this.board[move] = 'O';
+                    this.updateCell(move, 'O');
+
+                    if (this.checkWinner()) {
+                        this.endGame('O');
+                        return;
                     }
-                }
 
-                this.updateScoreBoard();
+                    if (this.checkDraw()) {
+                        this.endGame('draw');
+                        return;
+                    }
+
+                    this.switchPlayer();
+                }
             }
 
-            getWinMessage() {
-                if (this.gameMode === 'computer') {
-                    return this.currentPlayer === 'X' ? 'You Win! 🎉' : 'Computer Wins! 🤖';
+            getRandomMove() {
+                const emptyCells = this.board.map((cell, index) => cell === '' ? index : null).filter(val => val !== null);
+                return emptyCells.length > 0 ? emptyCells[Math.floor(Math.random() * emptyCells.length)] : -1;
+            }
+
+            getMediumMove() {
+                if (Math.random() < 0.7) {
+                    return this.getBestMove();
                 } else {
-                    return `Player ${this.currentPlayer} Wins! 🎉`;
+                    return this.getRandomMove();
                 }
-            }
-
-            async makeComputerMove() {
-                this.isComputerTurn = true;
-                this.showThinking();
-                
-                // Add delay for better user experience
-                await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
-                
-                const move = this.getBestMove();
-                const cell = this.cells[move];
-                
-                this.hideThinking();
-                this.makeMove(move, cell);
-                this.isComputerTurn = false;
             }
 
             getBestMove() {
-                const emptyCells = this.board.map((cell, index) => cell === '' ? index : null).filter(val => val !== null);
-                
-                if (this.difficulty === 'easy') {
-                    // Random move with 70% chance, smart move 30%
-                    if (Math.random() < 0.7) {
-                        return emptyCells[Math.floor(Math.random() * emptyCells.length)];
+                // Check for winning move
+                for (let i = 0; i < 9; i++) {
+                    if (this.board[i] === '') {
+                        this.board[i] = 'O';
+                        if (this.checkWinner()) {
+                            this.board[i] = '';
+                            return i;
+                        }
+                        this.board[i] = '';
                     }
                 }
-                
-                if (this.difficulty === 'medium') {
-                    // Smart move 70% of the time, random 30%
-                    if (Math.random() < 0.3) {
-                        return emptyCells[Math.floor(Math.random() * emptyCells.length)];
-                    }
-                }
-                
-                // Hard difficulty or fallback to smart move
-                return this.getSmartMove(emptyCells);
-            }
 
-            getSmartMove(emptyCells) {
-                // Try to win
-                for (let cell of emptyCells) {
-                    this.board[cell] = 'O';
-                    if (this.checkWin()) {
-                        this.board[cell] = '';
-                        return cell;
+                // Check for blocking move
+                for (let i = 0; i < 9; i++) {
+                    if (this.board[i] === '') {
+                        this.board[i] = 'X';
+                        if (this.checkWinner()) {
+                            this.board[i] = '';
+                            return i;
+                        }
+                        this.board[i] = '';
                     }
-                    this.board[cell] = '';
                 }
-                
-                // Try to block player from winning
-                for (let cell of emptyCells) {
-                    this.board[cell] = 'X';
-                    if (this.checkWin()) {
-                        this.board[cell] = '';
-                        return cell;
-                    }
-                    this.board[cell] = '';
-                }
-                
+
                 // Take center if available
-                if (emptyCells.includes(4)) {
+                if (this.board[4] === '') {
                     return 4;
                 }
-                
+
                 // Take corners
                 const corners = [0, 2, 6, 8];
-                const availableCorners = corners.filter(corner => emptyCells.includes(corner));
-                if (availableCorners.length > 0) {
-                    return availableCorners[Math.floor(Math.random() * availableCorners.length)];
+                for (let corner of corners) {
+                    if (this.board[corner] === '') {
+                        return corner;
+                    }
                 }
-                
-                // Take any available cell
-                return emptyCells[Math.floor(Math.random() * emptyCells.length)];
+
+                // Take any available side
+                const sides = [1, 3, 5, 7];
+                for (let side of sides) {
+                    if (this.board[side] === '') {
+                        return side;
+                    }
+                }
+
+                return -1;
             }
 
-            showThinking() {
-                this.thinkingIndicator.classList.add('show');
-            }
-
-            hideThinking() {
-                this.thinkingIndicator.classList.remove('show');
-            }
-
-            checkWin() {
-                return this.winningCombinations.some(combination => {
-                    const [a, b, c] = combination;
-                    return this.board[a] && 
-                           this.board[a] === this.board[b] && 
-                           this.board[a] === this.board[c];
-                });
+            checkWinner() {
+                for (let pattern of this.winPatterns) {
+                    const [a, b, c] = pattern;
+                    if (this.board[a] && this.board[a] === this.board[b] && this.board[a] === this.board[c]) {
+                        this.highlightWinningCells(pattern);
+                        return true;
+                    }
+                }
+                return false;
             }
 
             checkDraw() {
                 return this.board.every(cell => cell !== '');
             }
 
-            highlightWinningCells() {
-                this.winningCombinations.forEach(combination => {
-                    const [a, b, c] = combination;
-                    if (this.board[a] && 
-                        this.board[a] === this.board[b] && 
-                        this.board[a] === this.board[c]) {
-                        this.cells[a].classList.add('winning-cell');
-                        this.cells[b].classList.add('winning-cell');
-                        this.cells[c].classList.add('winning-cell');
-                    }
+            highlightWinningCells(pattern) {
+                pattern.forEach(index => {
+                    document.querySelector(`[data-index="${index}"]`).classList.add('winning');
                 });
+            }
+
+            endGame(winner) {
+                this.gameActive = false;
+                this.disableAllCells();
+                
+                if (winner === 'draw') {
+                    showMessage('It\'s a Draw! 🤝', 'Great game! Try again?');
+                } else {
+                    let winnerName;
+                    if (winner === 'X') {
+                        winnerName = 'Player 1';
+                        this.scores.player1++;
+                    } else {
+                        winnerName = this.gameMode === 'computer' ? 'Computer' : 'Player 2';
+                        this.scores.player2++;
+                    }
+                    showMessage(`${winnerName} Wins! 🎉`, `Congratulations ${winnerName}!`);
+                }
+                
+                this.updateScores();
             }
 
             switchPlayer() {
                 this.currentPlayer = this.currentPlayer === 'X' ? 'O' : 'X';
-                this.updatePlayerIndicator();
+                this.updatePlayerHighlight();
             }
 
-            updatePlayerIndicator() {
-                this.playerXInfo.classList.toggle('active-player', this.currentPlayer === 'X');
-                this.playerOInfo.classList.toggle('active-player', this.currentPlayer === 'O');
+            updateCell(index, player) {
+                const cell = document.querySelector(`[data-index="${index}"]`);
+                cell.textContent = player;
+                cell.classList.add(player.toLowerCase());
+                cell.disabled = true;
             }
 
-            endGame(message) {
-                this.gameActive = false;
-                this.showModal('Game Over!', message);
-            }
-
-            showModal(title, message) {
-                this.modalTitle.textContent = title;
-                this.modalMessage.textContent = message;
-                this.modal.classList.add('show');
-            }
-
-            hideModal() {
-                this.modal.classList.remove('show');
-            }
-
-            createConfetti() {
-                const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#f0932b', '#eb4d4b', '#6c5ce7'];
+            updatePlayerHighlight() {
+                document.querySelectorAll('.player-section').forEach(section => {
+                    section.classList.remove('active');
+                });
                 
-                for (let i = 0; i < 50; i++) {
-                    const confetti = document.createElement('div');
-                    confetti.classList.add('confetti');
-                    confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.animationDelay = Math.random() * 3 + 's';
-                    confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
-                    document.body.appendChild(confetti);
-
-                    setTimeout(() => {
-                        confetti.remove();
-                    }, 5000);
+                if (this.currentPlayer === 'X') {
+                    document.getElementById('player1Info').classList.add('active');
+                } else {
+                    document.getElementById('player2Info').classList.add('active');
                 }
             }
 
+            updateScores() {
+                document.getElementById('player1Score').textContent = this.scores.player1;
+                document.getElementById('player2Score').textContent = this.scores.player2;
+            }
+
+            showThinking() {
+                document.getElementById('thinkingIndicator').classList.add('show');
+            }
+
+            hideThinking() {
+                document.getElementById('thinkingIndicator').classList.remove('show');
+            }
+
+            disableAllCells() {
+                document.querySelectorAll('.cell').forEach(cell => {
+                    cell.disabled = true;
+                });
+            }
+
             resetGame() {
-                this.board = ['', '', '', '', '', '', '', '', ''];
+                this.board = Array(9).fill('');
                 this.currentPlayer = 'X';
                 this.gameActive = true;
-                this.isComputerTurn = false;
                 
-                this.cells.forEach(cell => {
+                document.querySelectorAll('.cell').forEach(cell => {
                     cell.textContent = '';
                     cell.disabled = false;
-                    cell.classList.remove('x', 'o', 'winning-cell');
+                    cell.classList.remove('x', 'o', 'winning');
                 });
-
-                this.updatePlayerIndicator();
-                this.hideModal();
+                
+                this.updatePlayerHighlight();
                 this.hideThinking();
             }
 
-            newGame() {
-                this.resetGame();
-                this.scores = { X: 0, O: 0, draw: 0 };
-                this.updateScoreBoard();
+            updateDisplay() {
+                const player2Name = document.querySelector('#player2Info .player-name');
+                player2Name.textContent = this.gameMode === 'computer' ? 'Computer' : 'Player 2';
+                
+                const gameModeInfo = document.getElementById('gameModeInfo');
+                if (this.gameMode === 'computer') {
+                    gameModeInfo.textContent = `vs Computer - ${this.difficulty.charAt(0).toUpperCase() + this.difficulty.slice(1)}`;
+                } else {
+                    gameModeInfo.textContent = '2 Players Mode';
+                }
+                
+                this.updateScores();
+                this.updatePlayerHighlight();
             }
+        }
 
-            updateScoreBoard() {
-                this.scoreX.textContent = this.scores.X;
-                this.scoreO.textContent = this.scores.O;
-                this.scoreDraw.textContent = this.scores.draw;
+        let game;
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function selectGameMode(mode) {
+            if (mode === 'computer') {
+                showScreen('difficultyScreen');
+            } else {
+                startGame(mode, 'medium');
+            }
+        }
+
+        function selectDifficulty(difficulty) {
+            startGame('computer', difficulty);
+        }
+
+        function startGame(gameMode, difficulty) {
+            game = new TicTacToe();
+            game.gameMode = gameMode;
+            game.difficulty = difficulty;
+            game.updateDisplay();
+            showScreen('gameScreen');
+        }
+
+        function resetGame() {
+            if (game) {
+                game.resetGame();
+            }
+        }
+
+        function newGame() {
+            if (game) {
+                game.resetGame();
+            }
+        }
+
+        function backToMenu() {
+            showScreen('welcomeScreen');
+        }
+
+        function showMessage(title, text) {
+            document.getElementById('messageTitle').textContent = title;
+            document.getElementById('messageText').textContent = text;
+            document.getElementById('gameMessage').classList.add('show');
+        }
+
+        function hideMessage() {
+            document.getElementById('gameMessage').classList.remove('show');
+            if (game) {
+                game.resetGame();
             }
         }
 
         // Initialize the game when the page loads
         document.addEventListener('DOMContentLoaded', () => {
-            new TicTacToe();
+            showScreen('welcomeScreen');
         });
     </script>
 </body>
